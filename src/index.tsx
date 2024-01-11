@@ -1,11 +1,8 @@
 import test from "./test";
 import {render} from "react-dom";
-import {TestComponent} from "./components/testComponent";
-import App from "./App";
+import App from "app/App";
 import {BrowserRouter} from "react-router-dom";
-import ThemeProvider from "./theme/ThemeProvider";
-
-// console.log(test(6));
+import {ThemeProvider} from "app/providers/ThemeProvider";
 
 render(
     <BrowserRouter>

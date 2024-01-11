@@ -14,15 +14,15 @@ export function buildWebpackConfig(options: IBuildOptions): webpack.Configuratio
         module: {
             rules: buildLoaders(options),
         },
-        resolve: buildResolvers(),
+        resolve: buildResolvers(options),
         output: {
             filename: "[name].[contenthash].js",
             path: paths.build,
             clean: true,
         },
         // dev опции
-        devtool: isDev && 'inline-source-map',
-        devServer: isDev && buildDevServer(options) || undefined,
+        devtool: isDev ? 'inline-source-map' : false,
+        devServer: isDev ? buildDevServer(options) : undefined,
         // Плагины
         plugins: buildPlugin(options),
     }

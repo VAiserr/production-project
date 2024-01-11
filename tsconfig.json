@@ -9,6 +9,9 @@
     "moduleResolution": "node",
     // абсолютный путь для импортов
     "baseUrl": ".",
+    "paths": {
+      "*": ["./src/*"]
+    },
     //
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
