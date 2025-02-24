@@ -40,10 +40,10 @@ jobs:
         run: |
           scp -r ./build/* deploy@${{ secrets.SSH_SERVER }}:/tmp/build
           ssh deploy@${{ secrets.SSH_SERVER }} <<EOF
-            sudo mv /var/www/corp-portal/demo /var/www/corp-portal/demo-bak
-            sudo mkdir -p /var/www/corp-portal/demo/html
-            sudo mv /tmp/build/* /var/www/corp-portal/demo/html
-            sudo rm -rf /tmp/build
+            mv /var/www/corp-portal/demo /var/www/corp-portal/demo-bak
+            mkdir -p /var/www/corp-portal/demo/html
+            mv /tmp/build/* /var/www/corp-portal/demo/html
+            rm -rf /tmp/build
           EOF
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
