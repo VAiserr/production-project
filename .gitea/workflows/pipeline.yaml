@@ -31,15 +31,15 @@ jobs:
           mkdir -p ~/.ssh/
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan {{ secrets.SSH_SERVER }} >> ~/.ssh/known_hosts
+          ssh-keyscan ${{ secrets.SSH_SERVER }} >> ~/.ssh/known_hosts
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
         # 6. Передача собранного проекта на сервер
       - name: Deploy to server
         run: |
-          scp -r ./build/* deploy@{{ secrets.SSH_SERVER }}:/tmp/build
-          ssh deploy@{{ secrets.SSH_SERVER }} <<EOF
+          scp -r ./build/* deploy@${{ secrets.SSH_SERVER }}:/tmp/build
+          ssh deploy@${{ secrets.SSH_SERVER }} <<EOF
             sudo mv /var/www/corp-portal/demo /var/www/corp-portal/demo-bak
             sudo mkdir -p /var/www/corp-portal/demo/html
             sudo mv /tmp/build/* /var/www/corp-portal/demo/html
