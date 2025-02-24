@@ -1,0 +1,52 @@
+name: Cross-platform build
+run-name: ${{ gitea.actor }} is running a cross-platform build
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Клонирование репозитория
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Установка Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      # 3. Установка зависимостей
+      - name: Install dependencies
+        run: npm install
+
+      # 4. Сборка проекта
+      - name: Build project
+        run: npm run build:prod
+
+      # 5. Настройка SSH-ключа для подключения к серверу
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan {{ secrets.SSH_SERVER }} >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+        # 6. Передача собранного проекта на сервер
+      - name: Deploy to server
+        run: |
+          scp -r ./build/* deploy@{{ secrets.SSH_SERVER }}:/tmp/build
+          ssh deploy@{{ secrets.SSH_SERVER }} <<EOF
+            sudo mv /var/www/corp-portal/demo /var/www/corp-portal/demo-bak
+            sudo mkdir -p /var/www/corp-portal/demo/html
+            sudo mv /tmp/build/* /var/www/corp-portal/demo/html
+            sudo rm -rf /tmp/build
+          EOF
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}

@@ -1,4 +1,4 @@
-import {lazy} from 'react';
+import { lazy } from "react";
 
-const MainPage = lazy(() => import('./ui/MainPage'));
+const MainPage = lazy(() => import("./ui/MainPage"));
 export default MainPage;
