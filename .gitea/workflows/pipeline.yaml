@@ -1,7 +1,7 @@
 name: Cross-platform build
 run-name: ${{ gitea.actor }} is running a cross-platform build
 on:
-  push:
+  pull:
     branches:
       - main
 
