@@ -1,6 +1,9 @@
 name: Build and deploy
 run-name: ${{ gitea.actor }} is running a Build and deploy
-on: [push]
+on:
+  push:
+    branches:
+      - develop
 
 jobs:
   build-and-deploy:
