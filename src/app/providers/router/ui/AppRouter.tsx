@@ -1,8 +1,7 @@
 import React, { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import MainPage from "pages/MainPage";
-import AboutPage from "pages/AboutPage";
 import { routeConfig } from "shared/config/routeConfig";
+import { NotFoundPage } from "pages/NotFoundPage/ui/NotFoundPage";
 
 const AppRouter = () => {
   return (
@@ -11,6 +10,7 @@ const AppRouter = () => {
         {Object.values(routeConfig).map(({ element, path }) => (
           <Route element={element} path={path} key={path} />
         ))}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Suspense>
   );
